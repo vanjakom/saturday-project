@@ -11,3 +11,15 @@ pom.xml.asc
 .lein-plugins/
 .lein-failures
 .nrepl-port
+repos
+.DS_Store
+bootstrap/target
+bootstrap/.idea
+bootstrap/logging
+bootstrap/*.iml
+utils/target
+utils/logging
+apps/*/target/
+apps/*/.idea
+apps/*/*.iml
+apps/*/logging
