@@ -21,7 +21,6 @@ public class CljScraperStart {
         // clojure must be in front of rest of prepared repo
         repositories.add("/Users/vanja/open-source/clojure/target/classes");
         repositories.add("/Users/vanja/projects/saturday-project/repos/clojure-dependencies");
-        // clj-common will be removed from repo once created
         repositories.add("/Users/vanja/projects/saturday-project/repos/clj-scraper");
 
         DynamicClassLoader classLoader = new DynamicClassLoader(repositories);
