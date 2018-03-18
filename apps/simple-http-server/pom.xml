@@ -16,8 +16,9 @@
         </dependency>
     </dependencies>
 
-    <build>
+    <build>       
         <plugins>
+<!--             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -34,7 +35,6 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <!-- put your configurations here -->
                 </configuration>
                 <executions>
                     <execution>
@@ -45,6 +45,7 @@
                     </execution>
                 </executions>
             </plugin>
+-->
         </plugins>
     </build>
 
