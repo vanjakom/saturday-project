@@ -3,6 +3,10 @@
 ## goal
 Be able to easily distribute ad hoc code from development box to compute one. Short lived  glue code made by composing static stateless / pure functions code should be good candidate for this. Both Java ( minimalistic code ) and Clojure code should be deployed.
 
+## blog
+
+https://vanjakom.wordpress.com/category/saturday-project/
+
 ## prerequisites
 clojure with modified source code to be built and target/classes added as repository. following modifications are done to source code:
 ```
