@@ -17,7 +17,7 @@ bootstrap/.idea
 bootstrap/logging
 bootstrap/*.iml
 utils/target
-utils/logging
+*/logging
 apps/*/target/
 apps/*/.idea
 apps/*/*.iml

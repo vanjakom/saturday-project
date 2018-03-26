@@ -234,7 +234,7 @@ public class MavenUtils {
 
     public static RepositorySystemSession newSession(RepositorySystem system) {
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
-        LocalRepository localRepo = new LocalRepository(System.getProperty("user.home") + ".m2/repository");
+        LocalRepository localRepo = new LocalRepository(System.getProperty("user.home") + "/.m2/repository");
         session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
         // set possible proxies and mirrors
         session.setProxySelector(

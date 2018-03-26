@@ -1,8 +1,4 @@
-package com.mungolab.playground.maven;
-
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+package com.mungolab.djvm.common;
 
 import java.io.File;
 import java.net.URL;
@@ -16,13 +12,12 @@ import java.util.stream.StreamSupport;
 /**
  * @author Vanja Komadinovic ( vanja@vast.com )
  */
-// migrated to com.mungolab.djvm.common.LanguageUtils
 public class LanguageUtils {
     static List<Supplier<Boolean>> tests = new LinkedList<>();
-    
+
 
     // https://www.pgrs.net/2015/04/23/partial-function-application-in-java-8/
-    public static <IN, ARG, OUT> Function<IN, OUT> partial(BiFunction <ARG, IN, OUT> f, ARG arg) {
+    public static <IN, ARG, OUT> Function<IN, OUT> partial(BiFunction<ARG, IN, OUT> f, ARG arg) {
         return (in) -> { return f.apply(arg, in); };
     }
 
@@ -57,6 +52,58 @@ public class LanguageUtils {
         return newList;
     }
 
+    public static <T> T first(Collection<T> list) {
+        if (list != null && list.size() > 0) {
+            return list.iterator().next();
+        } else {
+            return null;
+        }
+    }
+
+    public static <T> Collection<T> rest(Collection<T> list) {
+        if (list != null && list.size() > 1) {
+            List<T> newList = new LinkedList<>();
+            
+            Iterator<T> iterator = list.iterator();
+            iterator.next();
+
+            while (iterator.hasNext()) {
+                newList.add(iterator.next());
+            }
+
+            return newList;
+        } else {
+            return new LinkedList<>();
+        }
+    }
+
+    static {
+        tests.add(new Supplier<Boolean>() {
+            @Override
+            public Boolean get() {
+                List<String> list = listOf("a", "b", "c");
+                if ("a".equals(LanguageUtils.first(list))) {
+                    Collection<String> rest1 = LanguageUtils.rest(list);
+                    if ("b".equals(LanguageUtils.first(rest1))) {
+                        Collection<String> rest2 = LanguageUtils.rest(rest1);
+                        if ("c".equals(LanguageUtils.first(rest2))) {
+                            Collection<String> rest3 = LanguageUtils.rest(rest2);
+                            return
+                                    LanguageUtils.first(rest3) == null &&
+                                    LanguageUtils.rest(rest3).size() == 0;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
     public static <KEY, VAL1, VAL2> Map<KEY, Pair<VAL1, VAL2>> merge(
             Map<KEY, VAL1> original,
             Map<KEY, VAL2> lookup) {
@@ -82,10 +129,10 @@ public class LanguageUtils {
         tests.add(new Supplier<Boolean>() {
             @Override
             public Boolean get() {
-                Map<String, String> names = ImmutableMap.of(
+                Map<String, String> names = LanguageUtils.mapOf(
                         "Name1", "Surname1",
                         "Name2", "Surname2");
-                Map<String, Long> ids = ImmutableMap.of(
+                Map<String, Long> ids = LanguageUtils.mapOf(
                         "Name2", 2L,
                         "Name3", 3L);
 
@@ -94,14 +141,14 @@ public class LanguageUtils {
                 return
                         namesWithSurnamesAndIds.size() == 3 &&
 
-                        namesWithSurnamesAndIds.get("Name1").getRight() == null &&
-                        "Surname1".equals(namesWithSurnamesAndIds.get("Name1").getLeft()) &&
+                                namesWithSurnamesAndIds.get("Name1").getRight() == null &&
+                                "Surname1".equals(namesWithSurnamesAndIds.get("Name1").getLeft()) &&
 
-                        namesWithSurnamesAndIds.get("Name2").getRight() == 2L &&
-                        "Surname2".equals(namesWithSurnamesAndIds.get("Name2").getLeft()) &&
+                                namesWithSurnamesAndIds.get("Name2").getRight() == 2L &&
+                                "Surname2".equals(namesWithSurnamesAndIds.get("Name2").getLeft()) &&
 
-                        namesWithSurnamesAndIds.get("Name3").getRight() == 3L &&
-                        namesWithSurnamesAndIds.get("Name3").getLeft() == null;
+                                namesWithSurnamesAndIds.get("Name3").getRight() == 3L &&
+                                namesWithSurnamesAndIds.get("Name3").getLeft() == null;
             }
         });
     }
@@ -220,6 +267,10 @@ public class LanguageUtils {
         return data;
     }
 
+    public static <T> T[] arrayOf(T... values) {
+        return values;
+    }
+
     public static class Pair<LEFT, RIGHT> extends ListProxy<Object> {
         public Pair(LEFT left, RIGHT right) {
             super(LanguageUtils.<Object>listOf(left, right));
@@ -237,6 +288,27 @@ public class LanguageUtils {
     public static <LEFT, RIGHT> Pair<LEFT, RIGHT> pairOf(LEFT left, RIGHT right) {
         return new Pair<>(left, right);
     }
+
+    public static String join(Collection<String> parts, String separator) {
+        return String.join(separator, parts);
+
+        /*
+        StringBuilder sb = new StringBuilder();
+
+        boolean notFirst = false;
+        for (String part: parts) {
+            if (notFirst) {
+                sb.append(separator);
+            }
+            sb.append(part);
+            notFirst = true;
+        }
+
+        return sb.toString();
+        */
+    }
+
+    
 
     public static class ListProxy<VALUE> implements List<VALUE> {
         private List<VALUE> instance;
@@ -429,20 +501,21 @@ public class LanguageUtils {
         }
     }
 
-    static {
-        tests.forEach(test -> {
-            if (!test.get()) {
-                throw new RuntimeException("LanguageUtils: Test failed");
-            }
-        });
-    }
-
     public static URL fileToUrl(File file) {
         try {
             return new URL("file://" + file.getAbsolutePath());
         } catch (Exception e) {
             throw new RuntimeException("Unable to create URL for file: " + file.getAbsolutePath(), e);
         }
+    }
+    
+    // execute all tests
+    static {
+        tests.forEach(test -> {
+            if (!test.get()) {
+                throw new RuntimeException("LanguageUtils: Test failed");
+            }
+        });
     }
 
     public static void main(String[] args) {

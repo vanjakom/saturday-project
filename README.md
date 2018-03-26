@@ -7,6 +7,19 @@ Be able to easily distribute ad hoc code from development box to compute one. Sh
 
 https://vanjakom.wordpress.com/category/saturday-project/
 
+## log
+
+### start jetty example server on dynamic jvm 
+```
+cd apps/simple-http-server
+mvn clean install
+cd ../../
+cd dynamic-jvm
+mvn clean package
+java -cp jvm-loader/target/jvm-loader-1.0-SNAPSHOT.jar com.mungolab.djvm.loader.MavenArtifactMain <FULL-PATH>/dynamic-jvm/bootstrap-maven/target/bootstrap-maven-1.0-SNAPSHOT.jar com.mungolab.saturday-project simple-http-server 1.0-SNAPSHOT com.mungolab.sp.apps.httpserver.ServerMain
+curl 'http://localhost:7071/test-route'
+```
+
 ## prerequisites
 clojure with modified source code to be built and target/classes added as repository. following modifications are done to source code:
 ```

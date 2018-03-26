@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 /**
  * @author Vanja Komadinovic ( vanja@vast.com )
  */
+// migrated to com.mungolab.djvm.common.RuntimeUtils
 public class RuntimeUtils {
     public static Method mainMethod(Class clazz) {
         try {

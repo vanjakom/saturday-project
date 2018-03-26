@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * @author Vanja Komadinovic ( vanja@vast.com )
  */
+// most of stuff migrated to com.mungolab.djvm.loader.ClassLoaderUtils
 public class ClassLoadingUtils {
     public static final String PACKAGE = "package";
     public static final String NAME = "name";
@@ -78,22 +79,6 @@ public class ClassLoadingUtils {
 
     public static boolean filterClasses(String jarName) {
         return jarName.endsWith(".class");
-    }
-
-    public static class JarClassLoader extends ClassLoader {
-        private final ClassLoader parent;
-        private final ClassLoader proxy;
-
-        public JarClassLoader(ClassLoader parent, File jarFile) {
-            this.parent = parent;
-
-            try {
-                this.proxy = new URLClassLoader(new URL[] { new URL(jarFile.getAbsolutePath()) });
-            } catch (Exception e) {
-                throw new RuntimeException("Unable to setup ClassLoader", e);
-            }
-        }
-
     }
 
     public static void main(String[] args) throws Exception {
