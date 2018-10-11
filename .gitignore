@@ -23,3 +23,6 @@ apps/*/.idea
 apps/*/*.iml
 apps/*/logging
 apps/*/dependency-reduced-pom.xml
+**/*~
+**/.idea
+**/*.iml

@@ -52,6 +52,40 @@ public class LanguageUtils {
         return newList;
     }
 
+    public static <T> List<T> dropN(List<T> list, int n) {
+        List<T> newList = new LinkedList<>();
+
+
+        Iterator<T> iterator = list.iterator();
+        for (int i = 0; i < n; i++) {
+            if (iterator.hasNext()) {
+                iterator.next();
+            } else {
+                return newList;
+            }
+        }
+
+        while (iterator.hasNext()) {
+            newList.add(iterator.next());
+        }
+
+        return newList;
+    }
+
+    static {
+        tests.add(new Supplier<Boolean>() {
+            @Override
+            public Boolean get() {
+                List<String> result = LanguageUtils.dropN(LanguageUtils.listOf("a", "b", "c", "d"), 2);
+
+                return
+                        "c".equals(result.get(0)) &&
+                        "d".equals(result.get(1)) &&
+                        result.size() == 2;
+            }
+        });
+    }
+
     public static <T> T first(Collection<T> list) {
         if (list != null && list.size() > 0) {
             return list.iterator().next();
@@ -210,6 +244,15 @@ public class LanguageUtils {
         list.add(v1);
         list.add(v2);
         list.add(v3);
+        return list;
+    }
+
+    public static <VALUE> List<VALUE> listOf(VALUE v1, VALUE v2, VALUE v3, VALUE v4) {
+        List<VALUE> list = new LinkedList<>();
+        list.add(v1);
+        list.add(v2);
+        list.add(v3);
+        list.add(v4);
         return list;
     }
 

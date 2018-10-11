@@ -44,6 +44,7 @@ public class Bootstrap {
                     System.out.println(pair.getRight().getAbsolutePath());
                 });
 
+
         ClassLoader classLoader = new URLClassLoader(
                 runtimeDependencies
                         .stream()
@@ -53,6 +54,20 @@ public class Bootstrap {
                         .toArray(URL[]::new),
                 parent);
 
-        return classLoader;
+        return new ClassLoader(classLoader) {
+            @Override
+            protected Class<?> findClass(String name) throws ClassNotFoundException {
+                System.out.println("Finding class: " + name);
+
+                return super.findClass(name);
+            }
+
+            @Override
+            protected URL findResource(String name) {
+                System.out.println("Finding resource: " + name);
+
+                return super.findResource(name);
+            }
+        };
     }
 }

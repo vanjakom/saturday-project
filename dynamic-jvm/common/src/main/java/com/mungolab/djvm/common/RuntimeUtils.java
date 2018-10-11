@@ -51,6 +51,15 @@ public class RuntimeUtils {
         }
     }
 
+    public static void invokeMainMethodWithArgs(ClassLoader classLoader, String classS, String[] args) {
+        try {
+            Method mainMethod = RuntimeUtils.mainMethod(classLoader, classS);
+            mainMethod.invoke(null, new Object[] { args });
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to run main method", e);
+        }
+    }
+
     public static <T> T invokeStaticMethod(
             ClassLoader classLoader,
             String packageS,

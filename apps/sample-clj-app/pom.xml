@@ -30,6 +30,9 @@
                 <artifactId>clojure-maven-plugin</artifactId>
                 <version>1.8.1</version>
                 <extensions>true</extensions>
+                <configuration>
+                    <temporaryOutputDirectory>true</temporaryOutputDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -38,7 +41,8 @@
         <dependency>
             <groupId>org.clojure</groupId>
             <artifactId>clojure</artifactId>
-            <version>1.9.0</version>
+            <version>1.9.0-mungolab</version>
+            <!--<scope>provided</scope>-->
         </dependency>
     </dependencies>
 

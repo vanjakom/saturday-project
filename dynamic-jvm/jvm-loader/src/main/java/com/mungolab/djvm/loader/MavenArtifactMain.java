@@ -1,7 +1,11 @@
 package com.mungolab.djvm.loader;
 
+import com.mungolab.djvm.common.LanguageUtils;
 import com.mungolab.djvm.common.PathUtils;
 import com.mungolab.djvm.common.RuntimeUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Vanja Komadinovic ( vanja@vast.com )
@@ -24,7 +28,18 @@ public class MavenArtifactMain {
                 artifact,
                 version);
 
-        System.out.println("Running main method in class: " + mainClass);
-        RuntimeUtils.invokeMainMethod(artifactClassLoader, mainClass);
+        if (args.length > 5) {
+            System.out.println("Running main method in class: " + mainClass + " with args");
+
+            List<String> mainArgs = LanguageUtils.dropN(Arrays.asList(args), 5);
+            System.out.println("Main args:");
+            mainArgs.stream().forEach(arg -> System.out.println(arg));
+
+            RuntimeUtils.invokeMainMethodWithArgs(artifactClassLoader, mainClass, mainArgs.toArray(new String[0]));
+
+        } else {
+            System.out.println("Running main method in class: " + mainClass);
+            RuntimeUtils.invokeMainMethod(artifactClassLoader, mainClass);
+        }
     }
 }
