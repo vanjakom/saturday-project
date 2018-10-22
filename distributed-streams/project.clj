@@ -3,9 +3,10 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :repl-options {
-                  :nrepl-middleware
-                  [lighttable.nrepl.handler/lighttable-ops]}
+  :plugins [[cider/cider-nrepl "0.18.0"]]
+  ;:repl-options {
+  ;                :nrepl-middleware
+  ;                [lighttable.nrepl.handler/lighttable-ops]}
   :dependencies [
                   [org.clojure/clojure "1.8.0"]
 
